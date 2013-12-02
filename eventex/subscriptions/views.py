@@ -24,6 +24,6 @@ def new(request):
         {'form': SubscriptionForm()})
 
 def detail(request, pk):
-    #s = get_object_or_404(Subscription, pk=pk)
+    s = get_object_or_404(Subscription, pk=pk)
     return render(request, 'subscriptions/subscriptions_detail.html', 
         {'subscription': s})
