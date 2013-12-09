@@ -4,8 +4,8 @@ from django.utils.datetime_safe import datetime
 from django.utils.translation import ugettext as _
 
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'cpf', 'phone', 'created_at', 'subscribed_today')
-    #date_hierarchy = 'created_at'
+    date_hierarchy = 'created_at'
+    list_display = ('name', 'email', 'cpf', 'phone', 'created_at', 'subscribed_today', 'paid')
     search_fields = ('name', 'email', 'cpf', 'phone', 'created_at')
 
     def subscribed_today(self, obj):

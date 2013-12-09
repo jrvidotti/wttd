@@ -27,6 +27,10 @@ class SubscriptionTest(TestCase):
     def test_unicode(self):
         self.assertEqual(u'Junior Vidotti', unicode(self.obj))
 
+    def test_paid_default_value_false(self):
+        'paid must be False by default'
+        self.assertEqual(False, self.obj.paid)
+
 
 class SubscriptionUniqueTest(TestCase):
 
