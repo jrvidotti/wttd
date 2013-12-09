@@ -1,13 +1,14 @@
 # coding: utf-8
 from django.test import TestCase
 from eventex.subscriptions.models import Subscription
+from django.core.urlresolvers import reverse as r
 
 class SubscriptionDetailTest(TestCase):
 
     def setUp(self):
         s = Subscription.objects.create(name='Junior Vidotti', cpf='12345678901',
             email='jrvidotti@gmail.com', phone='65-92054852')
-        self.resp = self.client.post('/inscricao/%d/' % s.pk)
+        self.resp = self.client.post(r('subscriptions:detail', args=[s.pk]))
 
     def test_get(self):
         'GET /incricao/1/ should return 200'
@@ -30,6 +31,6 @@ class DetailNotFoundTest(TestCase):
 
     def test_not_found(self):
         'When subscription id doesnt exists, show 404'
-        resp = self.client.get('/inscricao/0/')
+        resp = self.client.get(r('subscriptions:detail', args=[0]))
         self.assertEqual(404, resp.status_code)
 
