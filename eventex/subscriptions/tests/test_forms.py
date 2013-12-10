@@ -9,6 +9,31 @@ class SubscriptionFormTest(TestCase):
         form = SubscriptionForm()
         self.assertItemsEqual(['name', 'cpf', 'email', 'phone'], form.fields)
 
+    def test_email_is_optional(self):
+        'Email is optional'
+        form = self.make_validated_form(email='')
+        self.assertFalse(form.errors)
+
+    def test_name_is_capitalized(self):
+        'Given name filled not capitalized'
+        form = self.make_validated_form(name='JUNIOR vidotti')
+
+        'When the form is validated'
+        form.is_valid()
+
+        'Then the name is cleaned capitalized'
+        self.assertEqual('Junior Vidotti', form.cleaned_data['name'])
+
+    def test_name_is_capitalized(self):
+        'Given name filled not capitalized'
+        form = self.make_validated_form(name='JUNIOR vidotti da silva')
+
+        'When the form is validated'
+        form.is_valid()
+
+        'Then the name is cleaned capitalized'
+        self.assertEqual('Junior Vidotti da Silva', form.cleaned_data['name'])
+
     def test_cpf_is_digit(self):
         'Given CPF filled in subscription form was not digits'
         form = self.make_validated_form(cpf='ABCD5678901')
