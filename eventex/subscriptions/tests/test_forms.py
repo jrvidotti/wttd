@@ -16,7 +16,7 @@ class SubscriptionFormTest(TestCase):
 
     def test_email_or_phone_was_informed(self):
         'Must inform email or phone number'
-        form = self.make_validated_form(email='', phone='')
+        form = self.make_validated_form(email='', phone_0='', phone_1='')
         self.assertIn('__all__', form.errors)
 
     def test_name_is_capitalized(self):
@@ -61,7 +61,7 @@ class SubscriptionFormTest(TestCase):
 
     def make_validated_form(self, **kwargs):
         data = dict(name='Junior Vidotti', email='jrvidotti@gmail.com',
-                    cpf='12345678901', phone='65-9999-9999')
+                    cpf='12345678901', phone_0='65', phone_1='99999999')
         data.update(kwargs)
         form = SubscriptionForm(data)
         return form
