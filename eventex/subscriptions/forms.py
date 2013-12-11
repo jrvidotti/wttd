@@ -21,13 +21,22 @@ class SubscriptionForm(forms.ModelForm):
 
         self.fields['cpf'].validators.append(CPFValidator)
 
+    def clean(self):
+        super(SubscriptionForm, self).clean()
+
+        if not self.cleaned_data.get('email') \
+           and not self.cleaned_data.get('phone'):
+            raise ValidationError(_(u'Informe seu e-mail ou telefone'))
+
+        return self.cleaned_data
+
     def clean_name(self):
         def capitalize(word):
             word = word.capitalize()
             if word in ['De', 'Da', 'Dos', 'Das']:
                 word = word.lower()
             return word
-            
+
         name = self.cleaned_data['name']
         words = map(lambda w: capitalize(w), name.split())
         capitalized_name = ' '.join(words)

@@ -14,6 +14,11 @@ class SubscriptionFormTest(TestCase):
         form = self.make_validated_form(email='')
         self.assertFalse(form.errors)
 
+    def test_email_or_phone_was_informed(self):
+        'Must inform email or phone number'
+        form = self.make_validated_form(email='', phone='')
+        self.assertIn('__all__', form.errors)
+
     def test_name_is_capitalized(self):
         'Given name filled not capitalized'
         form = self.make_validated_form(name='JUNIOR vidotti')

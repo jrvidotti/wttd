@@ -70,3 +70,10 @@ class SubscribeErrorTest(TestCase):
         self.assertFalse(Subscription.objects.exists())
 
 
+class TemplateRegressionTest(TestCase):
+
+    def test_template_has_non_field_errors(self):
+        'Check if non_field_errors are show in template'
+        invalid_data = dict(name='Junior Vidotti', cpf='12345678901')
+        response = self.client.post(r('subscriptions:subscribe'), invalid_data)
+        self.assertContains(response, '<ul class="errorlist">')
