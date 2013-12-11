@@ -24,7 +24,7 @@ class SubscriptionFormTest(TestCase):
         'Then the name is cleaned capitalized'
         self.assertEqual('Junior Vidotti', form.cleaned_data['name'])
 
-    def test_name_is_capitalized(self):
+    def test_name_is_capitalized_2(self):
         'Given name filled not capitalized'
         form = self.make_validated_form(name='JUNIOR vidotti da silva')
 
@@ -60,3 +60,5 @@ class SubscriptionFormTest(TestCase):
         data.update(kwargs)
         form = SubscriptionForm(data)
         return form
+
+
