@@ -32,9 +32,12 @@ class ContactModelTest(TestCase):
             url='http://henriquebastos.net',
             slug='henrique-bastos',
         )
-        self.email = Contact.objects.create(speaker=self.speaker, kind='E', value='henrique@bastos.net')
-        self.phone = Contact.objects.create(speaker=self.speaker, kind='P', value='21-9999-0000')
-        self.fax = Contact.objects.create(speaker=self.speaker, kind='F', value='21-1234-5678')
+        self.email = Contact(kind='E', value='henrique@bastos.net')
+        self.phone = Contact(kind='P', value='21-9999-0000')
+        self.fax = Contact(kind='F', value='21-1234-5678')
+        self.speaker.contact_set.add(self.email)
+        self.speaker.contact_set.add(self.phone)
+        self.speaker.contact_set.add(self.fax)
 
     def test_email(self):
         self.assertTrue(self.email.pk)
@@ -52,3 +55,18 @@ class ContactModelTest(TestCase):
     def test_unicode(self):
         """Test object unicode representation"""
         self.assertEqual(u'henrique@bastos.net', unicode(self.email))
+
+    def test_manager_emails(self):
+        qs = Contact.emails.all()
+        expected = ['<Contact: henrique@bastos.net>']
+        self.assertQuerysetEqual(qs, expected)
+
+    def test_manager_phones(self):
+        qs = Contact.phones.all()
+        expected = ['<Contact: 21-9999-0000>']
+        self.assertQuerysetEqual(qs, expected)
+
+    def test_manager_faxes(self):
+        qs = Contact.faxes.all()
+        expected = ['<Contact: 21-1234-5678>']
+        self.assertQuerysetEqual(qs, expected)
