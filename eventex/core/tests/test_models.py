@@ -32,18 +32,18 @@ class ContactModelTest(TestCase):
             url='http://henriquebastos.net',
             slug='henrique-bastos',
         )
+        self.email = Contact.objects.create(speaker=self.speaker, kind='E', value='henrique@bastos.net')
+        self.phone = Contact.objects.create(speaker=self.speaker, kind='P', value='21-9999-0000')
+        self.fax = Contact.objects.create(speaker=self.speaker, kind='F', value='21-1234-5678')
 
     def test_email(self):
-        contact = Contact.objects.create(speaker=self.speaker, kind='E', value='henrique@bastos.net')
-        self.assertEqual(1, contact.pk)
+        self.assertTrue(self.email.pk)
 
     def test_phone(self):
-        contact = Contact.objects.create(speaker=self.speaker, kind='P', value='21-9999-0000')
-        self.assertEqual(1, contact.pk)
+        self.assertTrue(self.phone.pk)
 
     def test_fax(self):
-        contact = Contact.objects.create(speaker=self.speaker, kind='F', value='21-1234-5678')
-        self.assertEqual(1, contact.pk)
+        self.assertTrue(self.fax.pk)
 
     def test_kind(self):
         contact = Contact(speaker=self.speaker, kind='A', value='21-1234-5678')
@@ -51,5 +51,4 @@ class ContactModelTest(TestCase):
 
     def test_unicode(self):
         """Test object unicode representation"""
-        contact = Contact.objects.create(speaker=self.speaker, kind='E', value='henrique@bastos.net')
-        self.assertEqual(u'henrique@bastos.net', unicode(contact))
+        self.assertEqual(u'henrique@bastos.net', unicode(self.email))
