@@ -1,7 +1,8 @@
 # coding: utf-8
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from eventex.core.managers import KindContactManager
+from eventex.core.managers import KindContactManager, PeriodManager
+from django.core.urlresolvers import reverse as r
 
 class Speaker(models.Model):
     name = models.CharField(_(u'Nome'), max_length=255)
@@ -11,6 +12,14 @@ class Speaker(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('core:speaker_detail', (), {'slug': self.slug})
+
+    class Meta:
+        verbose_name = 'palestrante'
+        verbose_name_plural = 'palestrantes'
 
 
 class Contact(models.Model):
@@ -32,4 +41,27 @@ class Contact(models.Model):
     def __unicode__(self):
         return self.value
 
+    class Meta:
+        verbose_name = 'contato'
+        verbose_name_plural = 'contatos'
+
+
+class Talk(models.Model):
+    title = models.CharField(_(u'Título'), max_length=200)
+    description = models.TextField(_(u'Descrição da palestra'))
+    start_time = models.TimeField(_(u'Horário'), blank=True)
+    speakers = models.ManyToManyField('Speaker', verbose_name=_(u'palestrantes'))
+
+    objects = PeriodManager()
+
+    def __unicode__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return '/palestras/%d/' % self.pk
+        #return r('core:talk_detail', self.pk)
+
+    class Meta:
+        verbose_name = 'palestra'
+        verbose_name_plural = 'palestras'
 
